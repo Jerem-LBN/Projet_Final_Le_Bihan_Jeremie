@@ -7,12 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.LeBihanJeremie.projet_final.models.User;
 
+import java.util.Optional;
+
 @Service
 public class UserImplem implements UserService {
     @Autowired
     UserRepo userRepo;
     @Override
-    public User createUser(com.example.LeBihanJeremie.projet_final.models.User entity) {
+    public User createUser(User entity) {
         return userRepo.save(entity);
     }
 
@@ -20,5 +22,10 @@ public class UserImplem implements UserService {
     public void addRoleToUser(User user, Role role){
         user.addRole(role);
         userRepo.save(user);
+    }
+
+    @Override
+    public Optional<User> getUSerByEmail(String email) {
+        return userRepo.findByEmail(email);
     }
 }

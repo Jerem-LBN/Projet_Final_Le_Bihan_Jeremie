@@ -13,8 +13,8 @@ public class DataInit implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        for (Role.RoleEnum roleEnum : Role.RoleEnum.values())   {
-            roleRepo.save(new Role(null, roleEnum.name()));
-        }
+//        for (Role.RoleEnum roleEnum : Role.RoleEnum.values())   {
+//            roleRepo.save(new Role(null, roleEnum.name()));
+ //       }
     }
 }
