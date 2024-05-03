@@ -2,6 +2,8 @@ package com.example.LeBihanJeremie.projet_final.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,12 +17,13 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
-@Inheritance(strategy = InheritanceType.JOINED)
+@AllArgsConstructor
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message = "Password must contain at least one uppercase letter, one lowercase letter and one number")
     private String password;
     private String fullname;
     @Email
@@ -34,6 +37,7 @@ public class User implements UserDetails {
 
     @OneToMany
     private List<Article> stock;
+
 
     public void addRole(Role role) {
         getRoles().add(role);
