@@ -5,6 +5,7 @@ import com.example.LeBihanJeremie.projet_final.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -15,11 +16,10 @@ public class AdminController {
     @Autowired
     UserService userService;
 
-    @DeleteMapping("/delete/user/{id}")
+    //@PreAuthorize("hasAuthority('ADMIN')")
+    @DeleteMapping("delete/user/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id){
-        System.out.println("delete user");
         Optional<User> user = userService.getUserById(id);
-        System.out.println(user);
         if(user.isEmpty())
             return new ResponseEntity<>(
                     "User not found",
@@ -31,6 +31,7 @@ public class AdminController {
         );
     }
 
+    //@PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/update/user/{id}")
     public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody User entity){
         Optional<User> user = userService.getUserById(id);

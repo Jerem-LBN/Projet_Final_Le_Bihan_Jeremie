@@ -15,6 +15,6 @@ public class DataInit implements CommandLineRunner {
     public void run(String... args) throws Exception {
 //        for (Role.RoleEnum roleEnum : Role.RoleEnum.values())   {
 //            roleRepo.save(new Role(null, roleEnum.name()));
- //       }
+//        }
     }
 }

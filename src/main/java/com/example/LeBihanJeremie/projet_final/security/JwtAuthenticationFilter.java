@@ -38,13 +38,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         final String jwt = authHeader.substring("Bearer ".length());
-        final String pseudo = jwtService.extractUsername(jwt);
-        if (pseudo == null || SecurityContextHolder.getContext().getAuthentication() != null) {
+        final String email = jwtService.extractUsername(jwt);
+        if (email == null || SecurityContextHolder.getContext().getAuthentication() != null) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        UserDetails userDetails = this.userDetailsService.loadUserByUsername(pseudo);
+        UserDetails userDetails = this.userDetailsService.loadUserByUsername(email);
         if (!jwtService.isTokenValid(jwt, userDetails)){
             filterChain.doFilter(request, response);
             return;
