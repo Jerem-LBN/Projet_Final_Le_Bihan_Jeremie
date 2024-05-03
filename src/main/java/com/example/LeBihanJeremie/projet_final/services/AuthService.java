@@ -12,4 +12,5 @@ public interface AuthService {
 
     User registerUser(User entity, Role role);
 
+    String loginUser(User user, String password);
 }

@@ -23,9 +23,9 @@ public class AuthImplem implements AuthService {
     UserService userService;
 
     @Override
-    public String login(Admin user, String password) {
-        if(bCryptPasswordEncoder.matches(password, user.getPassword()))
-            return jwtService.generateToken(user);
+    public String login(Admin admin, String password) {
+        if(bCryptPasswordEncoder.matches(password, admin.getPassword()))
+            return jwtService.generateToken(admin);
         return null;
     }
 
@@ -43,5 +43,12 @@ public class AuthImplem implements AuthService {
         entity.setPassword(passwordEncoded);
         userService.addRoleToUser(entity, role);
         return userService.createUser(entity);
+    }
+
+    @Override
+    public String loginUser(User user, String password) {
+        if(bCryptPasswordEncoder.matches(password, user.getPassword()))
+            return jwtService.generateToken(user);
+        return null;
     }
 }
