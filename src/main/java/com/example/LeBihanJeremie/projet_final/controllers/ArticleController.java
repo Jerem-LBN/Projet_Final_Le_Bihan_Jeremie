@@ -67,7 +67,7 @@ public class ArticleController {
     }
 
     @PutMapping("/products/{id}")
-    public ResponseEntity<?> updateArticle(@PathVariable Long id, @Valid @RequestBody Article article, BindingResult result){
+    public ResponseEntity<?> updateArticle(@Valid @PathVariable Long id,  @RequestBody Article article, BindingResult result){
         if(article == null)
             return new ResponseEntity<>(
                     "Invalid article",
@@ -93,6 +93,42 @@ public class ArticleController {
                 HttpStatus.OK
         );
     }
+
+    /* Pas eu le temps de test cette méthode
+    @PutMapping("/products/{userId}/{id}")
+    public ResponseEntity<?> updateArticle(@Valid @PathVariable Long userId, @PathVariable Long id,  @RequestBody Article article, BindingResult result){
+        User user = userService.getUserById(userId).get();
+        List<Article> articles = user.getStock();
+        Optional<Article> articleInBDD = articleService.getArticleById(id);
+        if(articleInBDD.isEmpty())
+            return new ResponseEntity<>(
+                    "No article found",
+                    HttpStatus.NOT_FOUND
+            );
+        if(articles.isEmpty())
+            return new ResponseEntity<>(
+                    "User don't have any articles",
+                    HttpStatus.BAD_REQUEST
+            );
+        if(result.hasErrors())
+            return new ResponseEntity<>(
+                    "Invalid article",
+                    HttpStatus.BAD_REQUEST
+            );
+        articles.forEach(article1 -> {
+            if(article1.getId() == articleInBDD.get().getId()){
+                article1.setDescription(article.getDescription());
+                article1.setPrice(article.getPrice());
+                article1.setName(article.getName());
+                article1.setQuantity(article.getQuantity());
+                articleService.createArticle(article1);
+            }
+        });
+        return new ResponseEntity<>(
+                articleService.createArticle(articleInBDD.get()),
+                HttpStatus.OK
+        );
+    }*/
 
     @DeleteMapping("/products/{id}")
     public ResponseEntity<?> deleteArticle(@PathVariable Long id){
@@ -120,6 +156,24 @@ public class ArticleController {
                 HttpStatus.BAD_REQUEST
         );
         article.get().setQuantity(article.get().getQuantity() + quantity);
+        return new ResponseEntity<>(
+                articleService.createArticle(article.get()),
+                HttpStatus.CREATED
+        );
+
+    }
+
+    @PostMapping("stock/exit")
+    public ResponseEntity<?> removeStock(@RequestBody Map<String,Integer> map){
+        int productId = map.get("productId");
+        int quantity = map.get("quantity");
+        Optional<Article> article = articleService.getArticleById((long) productId);
+        if(article.isEmpty())
+            return new ResponseEntity<>(
+                    "No article found",
+                    HttpStatus.BAD_REQUEST
+            );
+        article.get().setQuantity(article.get().getQuantity() - quantity);
         return new ResponseEntity<>(
                 articleService.createArticle(article.get()),
                 HttpStatus.CREATED
