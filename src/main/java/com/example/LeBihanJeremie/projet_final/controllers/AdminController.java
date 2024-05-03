@@ -15,7 +15,7 @@ public class AdminController {
     @Autowired
     UserService userService;
 
-    @DeleteMapping("/user/{id}")
+    @DeleteMapping("/delete/user/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id){
         System.out.println("delete user");
         Optional<User> user = userService.getUserById(id);
@@ -31,7 +31,7 @@ public class AdminController {
         );
     }
 
-    @PutMapping("/user/{id}")
+    @PutMapping("/update/user/{id}")
     public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody User entity){
         Optional<User> user = userService.getUserById(id);
         if(user.isEmpty())

@@ -18,4 +18,6 @@ public interface UserService {
     User deleteUserById(Long id);
 
     User updateUser(Long id, User entity);
+
+    Optional<User> getUserByCode(String code);
 }

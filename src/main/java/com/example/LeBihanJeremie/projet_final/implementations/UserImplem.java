@@ -53,4 +53,9 @@ public class UserImplem implements UserService {
         user.setPassword(passwordEncoded);
         return userRepo.save(user);
     }
+
+    @Override
+    public Optional<User> getUserByCode(String code) {
+        return userRepo.findByCode(code);
+    }
 }

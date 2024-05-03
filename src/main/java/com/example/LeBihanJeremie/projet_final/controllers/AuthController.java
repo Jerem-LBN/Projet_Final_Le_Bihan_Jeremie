@@ -50,6 +50,10 @@ public class AuthController {
         return null;
     }
 
+    private String generateCode() {
+        return String.valueOf(Math.random() * 10000);
+    }
+
     @PostMapping("admin/signup")
     public ResponseEntity<?> adminSignup(@Valid @RequestBody Admin entity){
         ResponseEntity<?> res = adminExisteResponse(entity);
@@ -78,6 +82,7 @@ public class AuthController {
                     "Une erreur est servenue !",
                     HttpStatus.INTERNAL_SERVER_ERROR
             );
+        entity.setCode(generateCode());
         return new ResponseEntity<>(
                 authService.registerUser(entity, role.get()),
                 HttpStatus.CREATED

@@ -25,6 +25,7 @@ public class User implements UserDetails {
     private String fullname;
     @Email
     private String email;
+    private String code;
 
     @ManyToMany(fetch = FetchType.EAGER)
     List<Role> roles = new ArrayList<>();
@@ -66,5 +67,8 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return false;
+    }
+
+    public void setValidated(boolean b) {
     }
 }
